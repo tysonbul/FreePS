@@ -13,5 +13,8 @@ public class PostDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
 
+
+
+
     }
 }
