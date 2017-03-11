@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         SharedPreferences item_interest = context.getSharedPreferences("iteminterest", MODE_PRIVATE);
         SharedPreferences.Editor edit = item_interest.edit();
-        
+
         edit.clear();
         edit.putInt("Test", 1234);
         edit.commit();
