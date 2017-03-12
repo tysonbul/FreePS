@@ -3,7 +3,7 @@ package com.example.tyson.freeps;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class FindOrPost extends AppCompatActivity {
+public class FindOrPostActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
