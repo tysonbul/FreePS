@@ -78,7 +78,7 @@ public class PostDetails extends AppCompatActivity {
         Post Post = new Post(Title, Description);
 
         myRef.child(PostID).setValue(Post);
-        
+
         addPostChangeListener();
     }
 
