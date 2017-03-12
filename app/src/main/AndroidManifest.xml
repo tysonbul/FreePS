@@ -25,7 +25,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MapsActivity">
+        <activity android:name=".FindOrPostActivity"
+            android:icon="@drawable/placeholder_icon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,7 +49,8 @@
             android:name=".SplashScreen"
             android:label="@string/title_activity_maps" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".FindOrPostActivity" />
+        <activity android:name=".MapsActivity"
+            android:icon="@drawable/placeholder_icon"/>
     </application>
 
 </manifest>
