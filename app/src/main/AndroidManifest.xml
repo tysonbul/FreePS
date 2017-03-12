@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LocationTest"
+            android:name=".PostDetails"
             android:icon="@drawable/placeholder_icon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,6 +46,7 @@
             android:name=".SplashScreen"
             android:label="@string/title_activity_maps" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".LocationTest" />
         <activity
             android:name=".MapsActivity"
             android:icon="@drawable/placeholder_icon" />
