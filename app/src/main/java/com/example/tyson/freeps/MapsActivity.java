@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.DialogFragment;
 import android.content.pm.PackageManager;
 import android.location.Location;
-//import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -57,6 +56,14 @@ public class MapsActivity extends FragmentActivity
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
 
+    private static final LatLng PERTH = new LatLng(-31.952854, 115.857342);
+    private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
+    private static final LatLng BRISBANE = new LatLng(-27.47093, 153.0235);
+
+    private Marker mPerth;
+    private Marker mSydney;
+    private Marker mBrisbane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +107,23 @@ public class MapsActivity extends FragmentActivity
         mMap = map;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(49.234221, -122.8145), 9));
 
+        // Add some markers to the map, and add a data object to each marker.
+        mPerth = mMap.addMarker(new MarkerOptions()
+                .position(PERTH)
+                .title("Perth"));
+        mPerth.setTag(0);
+
+        mSydney = mMap.addMarker(new MarkerOptions()
+                .position(SYDNEY)
+                .title("Sydney"));
+        mSydney.setTag(0);
+
+        mBrisbane = mMap.addMarker(new MarkerOptions()
+                .position(BRISBANE)
+                .title("Brisbane")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder_icon)));
+        mBrisbane.setTag(0);
+
         mMap.setOnMapClickListener(this);
         mMap.setOnMapLongClickListener(this);
         mMap.setOnCameraIdleListener(this);
@@ -124,6 +148,7 @@ public class MapsActivity extends FragmentActivity
         // For each item
             // Make a map marker with respective location and catagory icon (couch or what ever)
             // Set marker options
+                // Icon for respective type of item
             // Set marker tag to a value
             // Add {value: item info} to dictionary
     }
