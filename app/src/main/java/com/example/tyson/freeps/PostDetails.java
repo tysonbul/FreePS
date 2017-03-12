@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +51,9 @@ public class PostDetails extends AppCompatActivity implements GoogleApiClient.Co
     private String LocationLat;
     private String LocationLon;
     private String TimeAndDate;
+    private String ItemCategory;
+    private String ClaimFlag;
+    private String notThereFlag;
     private FirebaseDatabase db;
     private DatabaseReference myRef;
 
@@ -65,6 +70,13 @@ public class PostDetails extends AppCompatActivity implements GoogleApiClient.Co
         else
             Toast.makeText(this, "Not connected...", Toast.LENGTH_SHORT).show();
 
+
+        String itemCat[] = {"Furniture","Electronics","Books","Textbooks","Sports Gear","Clothing","Accessories","Other"};
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemCat);
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(spinnerArrayAdapter);
+
+
         // get view fields
         PostDetails = (TextView) findViewById(R.id.post_details);
         submitButton = (Button) findViewById(R.id.submitButton);
@@ -80,20 +92,23 @@ public class PostDetails extends AppCompatActivity implements GoogleApiClient.Co
                 String Title = inputTitle.getText().toString();
                 String Description = inputDescription.getText().toString();
                 TimeAndDate = DateFormat.getDateTimeInstance().format(new Date());
+                ItemCategory =  spinner.getSelectedItem().toString();
+                ClaimFlag = "f";
+                notThereFlag = "f";
 
 
                 // Check for already existed PostID
                 if (TextUtils.isEmpty(PostID)) {
-                    createPost(Title, Description, LocationLat, LocationLon, TimeAndDate);
+                    createPost(Title, Description, LocationLat, LocationLon, TimeAndDate, ItemCategory, ClaimFlag, notThereFlag);
                 } else {
-                    updatePost(Title, Description, LocationLat, LocationLon, TimeAndDate);
+                    updatePost(Title, Description, LocationLat, LocationLon, TimeAndDate, ItemCategory, ClaimFlag, notThereFlag);
                 }
             }
         });
 
     }
 
-    private void createPost(String Title, String Description, String LocationLat, String LocationLon, String TimeAndDate) {
+    private void createPost(String Title, String Description, String LocationLat, String LocationLon, String TimeAndDate, String ItemCategory, String ClaimFlag, String notThereFlag) {
         // TODO
         // In real apps this PostID should be fetched
         // by implementing firebase auth
@@ -103,7 +118,7 @@ public class PostDetails extends AppCompatActivity implements GoogleApiClient.Co
             Log.d("Key Value", PostID);
         }
 
-        Post Post = new Post(Title, Description, LocationLat, LocationLon, TimeAndDate);
+        Post Post = new Post(Title, Description, LocationLat, LocationLon, TimeAndDate, ItemCategory, ClaimFlag, notThereFlag);
 
         myRef.child(PostID).setValue(Post);
         
@@ -152,7 +167,7 @@ public class PostDetails extends AppCompatActivity implements GoogleApiClient.Co
 
     }
 
-    private void updatePost(String Title, String Description, String LocationLat, String LocationLon, String TimeAndDate) {
+    private void updatePost(String Title, String Description, String LocationLat, String LocationLon, String TimeAndDate, String ItemCategory, String ClaimFlag, String notThereFlag) {
         if (!TextUtils.isEmpty(Title))
             myRef.child(PostID).child("Title").setValue(Title);
         if (!TextUtils.isEmpty(Description))
