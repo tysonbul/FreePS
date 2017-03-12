@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,8 +31,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -39,6 +38,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 /**
@@ -62,13 +66,21 @@ public class MapsActivity extends FragmentActivity
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
 
-    private static final LatLng PERTH = new LatLng(-31.952854, 115.857342);
-    private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
-    private static final LatLng BRISBANE = new LatLng(-27.47093, 153.0235);
+    Long PostCounter;
+    Double[] tempLocationLat;
+    Double[] tempLocationLon;
+    String[] tempTitle;
+    String[] tempInfo;
+    String[] tempTimeAndDate;
+    String[] tempDescription;
+    String[] tempClaimFlag;
+    String[] tempNotThereFlag;
+    String[] tempItemCat;
 
-    private Marker mPerth;
-    private Marker mSydney;
-    private Marker mBrisbane;
+    Post p;
+    String locationLat;
+    String locationLon;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,24 +103,6 @@ public class MapsActivity extends FragmentActivity
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-//        hostButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("hi","button clicked");
-//                //Intent i = new Intent(MapsActivity.this, EventDetails.class);
-//                //i.putExtra("point",hostPoint);
-//                //startActivity(i);
-//            }
-//        });
-
-//        home.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Intent i = new Intent(MapsActivity.this,UserAreaActivity.class);
-//                //startActivity(i);
-//            }
-//        });
 
         helpButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -117,6 +111,62 @@ public class MapsActivity extends FragmentActivity
                 newFragment.show(getFragmentManager(), "helpDialog");
             }
         });
+        FirebaseDatabase myRef = FirebaseDatabase.getInstance();
+        Query q = myRef.getReference();
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                PostCounter = dataSnapshot.child("Posts").getChildrenCount();
+
+                tempLocationLat = new Double[PostCounter.intValue()];
+                tempLocationLon = new Double[PostCounter.intValue()];
+                tempTitle = new String[PostCounter.intValue()];
+                tempItemCat = new String[PostCounter.intValue()];
+                tempTimeAndDate = new String[PostCounter.intValue()];
+                tempDescription = new String[PostCounter.intValue()];
+                tempClaimFlag = new String[PostCounter.intValue()];
+                tempNotThereFlag = new String[PostCounter.intValue()];
+
+                Log.d("location",String.valueOf(tempLocationLat.length));
+                Integer i=0;
+
+                for(DataSnapshot post : dataSnapshot.child("Posts").getChildren()){
+                    p = post.getValue(Post.class);
+                    locationLat = p.getLocationLat();
+                    locationLon = p.getLocationLon();
+
+                    //Log.d("locationLat",locationLat);
+                    //Log.d("locationLon",locationLon);
+
+
+                    tempLocationLat[i] = Double.parseDouble(locationLat);
+                    tempLocationLon[i] = Double.parseDouble(locationLon);
+                    tempTitle[i] = p.getTitle();
+                    tempItemCat[i] = p.getItemCategory();
+                    tempTimeAndDate[i] = p.getTimeAndDate();
+                    tempDescription[i] = p.getDescription();
+                    tempNotThereFlag[i] = p.getNotThereFlag();
+                    tempClaimFlag[i] = p.getClaimFlag();
+                    Log.d("title",tempTitle[i]);
+                    i++;
+
+                }
+
+                for (Integer ii=0; ii < i; ii++){
+                    /////////////////////////////////////////
+                    // tempItemCat[i] returns itemCategory //
+                    /////////////////////////////////////////
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(tempLocationLat[ii],tempLocationLon[ii])).title(tempTitle[ii]));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         postButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -162,22 +212,6 @@ public class MapsActivity extends FragmentActivity
         mMap = map;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(49.234221, -122.8145), 9));
 
-        // Add some markers to the map, and add a data object to each marker.
-        mPerth = mMap.addMarker(new MarkerOptions()
-                .position(PERTH)
-                .title("Perth"));
-        mPerth.setTag(0);
-
-        mSydney = mMap.addMarker(new MarkerOptions()
-                .position(SYDNEY)
-                .title("Sydney"));
-        mSydney.setTag(0);
-
-        mBrisbane = mMap.addMarker(new MarkerOptions()
-                .position(BRISBANE)
-                .title("Brisbane")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder_icon)));
-        mBrisbane.setTag(0);
 
         mMap.setOnCameraIdleListener(this);
 
@@ -222,6 +256,7 @@ public class MapsActivity extends FragmentActivity
 
         // Retrieve the data from the marker.
         Integer clickCount = (Integer) marker.getTag();
+
 
         // Get the markers respective item info from the dictionary
 

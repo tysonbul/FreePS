@@ -5,18 +5,20 @@ package com.example.tyson.freeps;
  */
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.sql.Time;
+
 public class Post {
 
-    public String ClaimFlag;
-    public String Description;
-    public String ItemCategory;
-    public String LocationLon;
-    public String LocationLat;
+    String ClaimFlag;
+    String Description;
+    String ItemCategory;
+    String LocationLon;
+    String LocationLat;
 //    public String Photo;
 //    public String PostID;
-    public String TimeAndDate;
-    public String Title;
-    public String notThereFlag;
+    String TimeAndDate;
+    String Title;
+    String notThereFlag;
 
     public Post() {
 
@@ -34,4 +36,37 @@ public class Post {
         this.ClaimFlag = ClaimFlag;
         this.notThereFlag = notThereFlag;
     }
+
+    public String getLocationLat(){
+        return LocationLat;
+    }
+
+    public String getLocationLon(){
+        return LocationLon;
+    }
+
+    public String getItemCategory(){
+        return ItemCategory;
+    }
+
+    public String getTitle(){
+        return Title;
+    }
+
+    public String getTimeAndDate(){
+        return TimeAndDate;
+    }
+
+    public String getDescription(){
+        return Description;
+    }
+
+    public String getClaimFlag(){
+        return ClaimFlag;
+    }
+
+    public String getNotThereFlag(){
+        return notThereFlag;
+    }
+
 }
