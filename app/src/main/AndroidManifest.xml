@@ -58,19 +58,14 @@
             android:name=".MapsActivity"/>
         <activity android:name=".MainActivity" />
         <activity
-<<<<<<< HEAD
             android:name=".FindOrPostActivity"
             android:background="@color/colorPrimaryDark" />
         <activity android:name=".AddPostActivity"></activity>
         <activity android:name=".LocationTest" />
 
-=======
             android:name=".PostDetails"
             android:icon="@drawable/placeholder_icon" />
-        <activity android:name=".FindOrPostActivity"
-            android:icon="@drawable/placeholder_icon"/>
-        
->>>>>>> db
+
     </application>
 
 </manifest>
