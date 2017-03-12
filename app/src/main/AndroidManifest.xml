@@ -59,8 +59,8 @@
         <activity
             android:name=".SplashScreen"
             android:label="@string/title_activity_maps" />
+
         <activity android:name=".MainActivity" />
-        <activity android:name=".LocationTest" />
         <activity
             android:name=".PostDetails"
             android:icon="@drawable/placeholder_icon" />

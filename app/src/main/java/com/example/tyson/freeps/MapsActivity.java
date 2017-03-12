@@ -112,8 +112,8 @@ public class MapsActivity extends FragmentActivity
 
                 for(DataSnapshot post : dataSnapshot.child("Posts").getChildren()){
                     p = post.getValue(Post.class);
-                    locationLat = p.getLocationLat();
-                    locationLon = p.getLocationLon();
+                    locationLat = p.geLocationLat();
+                    locationLon = p.geLocationLon();
 
                     //Log.d("locationLat",locationLat);
                     //Log.d("locationLon",locationLon);
@@ -121,12 +121,12 @@ public class MapsActivity extends FragmentActivity
 
                     tempLocationLat[i] = Double.parseDouble(locationLat);
                     tempLocationLon[i] = Double.parseDouble(locationLon);
-                    tempTitle[i] = p.getTitle();
-                    tempItemCat[i] = p.getItemCategory();
-                    tempTimeAndDate[i] = p.getTimeAndDate();
-                    tempDescription[i] = p.getDescription();
-                    tempNotThereFlag[i] = p.getNotThereFlag();
-                    tempClaimFlag[i] = p.getClaimFlag();
+                    tempTitle[i] = p.geTitle();
+                    tempItemCat[i] = p.geItemCategory();
+                    tempTimeAndDate[i] = p.geTimeAndDate();
+                    tempDescription[i] = p.geDescription();
+                    tempNotThereFlag[i] = p.geNotThereFlag();
+                    tempClaimFlag[i] = p.geClaimFlag();
                     Log.d("title",tempTitle[i]);
                     i++;
 

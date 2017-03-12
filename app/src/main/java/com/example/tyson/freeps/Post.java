@@ -37,35 +37,35 @@ public class Post {
         this.notThereFlag = notThereFlag;
     }
 
-    public String getLocationLat(){
+    public String geLocationLat(){
         return LocationLat;
     }
 
-    public String getLocationLon(){
+    public String geLocationLon(){
         return LocationLon;
     }
 
-    public String getItemCategory(){
+    public String geItemCategory(){
         return ItemCategory;
     }
 
-    public String getTitle(){
+    public String geTitle(){
         return Title;
     }
 
-    public String getTimeAndDate(){
+    public String geTimeAndDate(){
         return TimeAndDate;
     }
 
-    public String getDescription(){
+    public String geDescription(){
         return Description;
     }
 
-    public String getClaimFlag(){
+    public String geClaimFlag(){
         return ClaimFlag;
     }
 
-    public String getNotThereFlag(){
+    public String geNotThereFlag(){
         return notThereFlag;
     }
 
