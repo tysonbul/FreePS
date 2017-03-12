@@ -62,10 +62,14 @@ public class MapsActivity extends FragmentActivity
     Long PostCounter;
     Double[] tempLocationLat;
     Double[] tempLocationLon;
+    String[] tempTitle;
     String[] tempInfo;
+    String[] tempItemCat;
     Post p;
     String locationLat;
     String locationLon;
+    String title;
+    String itemCat;
     LatLng tempLocation;
 
 
@@ -94,6 +98,9 @@ public class MapsActivity extends FragmentActivity
 
                 tempLocationLat = new Double[PostCounter.intValue()];
                 tempLocationLon = new Double[PostCounter.intValue()];
+                tempTitle = new String[PostCounter.intValue()];
+                tempItemCat = new String[PostCounter.intValue()];
+
                 Log.d("location",String.valueOf(tempLocationLat.length));
                 Integer i=0;
 
@@ -101,18 +108,27 @@ public class MapsActivity extends FragmentActivity
                     p = post.getValue(Post.class);
                     locationLat = p.getLocationLat();
                     locationLon = p.getLocationLon();
+                    title = p.getTitle();
+                    itemCat = p.getItemCategory();
+
                     //Log.d("locationLat",locationLat);
                     //Log.d("locationLon",locationLon);
 
 
                     tempLocationLat[i] = Double.parseDouble(locationLat);
                     tempLocationLon[i] = Double.parseDouble(locationLon);
+                    tempTitle[i] = p.getTitle();
+                    tempItemCat[i] = p.getItemCategory();
+                    Log.d("title",tempTitle[i]);
                     i++;
 
                 }
 
                 for (Integer ii=0; ii < i; ii++){
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(tempLocationLat[ii],tempLocationLon[ii])));
+                    /////////////////////////////////////////
+                    // tempItemCat[i] returns itemCategory //
+                    /////////////////////////////////////////
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(tempLocationLat[ii],tempLocationLon[ii])).title(tempTitle[ii]));
                 }
 
             }
@@ -212,6 +228,7 @@ public class MapsActivity extends FragmentActivity
 
         // Retrieve the data from the marker.
         Integer clickCount = (Integer) marker.getTag();
+
 
         // Get the markers respective item info from the dictionary
 

@@ -47,4 +47,8 @@ public class Post {
         return ItemCategory;
     }
 
+    public String getTitle(){
+        return Title;
+    }
+
 }
