@@ -45,11 +45,13 @@
         <activity
             android:name=".SplashScreen"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".FindOrPostActivity"/>
         <activity android:name=".MainActivity" />
         <activity
             android:name=".MapsActivity"
             android:icon="@drawable/placeholder_icon" />
-\\    </application>
+        <activity android:name=".FindOrPostActivity"
+            android:icon="@drawable/placeholder_icon"/>
+
+    </application>
 
 </manifest>
