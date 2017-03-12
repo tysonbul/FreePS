@@ -73,12 +73,6 @@ public class MapsActivity extends FragmentActivity
     Post p;
     String locationLat;
     String locationLon;
-    String title;
-    String itemCat;
-    String TimeAndDate;
-    String Description;
-    String ClaimFlag;
-    String NotThereFlag;
 
 
     @Override
@@ -132,7 +126,7 @@ public class MapsActivity extends FragmentActivity
                     tempTimeAndDate[i] = p.getTimeAndDate();
                     tempDescription[i] = p.getDescription();
                     tempNotThereFlag[i] = p.getNotThereFlag();
-                    tempNot
+                    tempClaimFlag[i] = p.getClaimFlag();
                     Log.d("title",tempTitle[i]);
                     i++;
 
