@@ -2,8 +2,11 @@ package com.example.tyson.freeps;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +29,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.security.Permission;
+
 public class PostDetails extends AppCompatActivity {
     Long PostCounter = 0L;
     Button submitButton;
@@ -35,7 +40,7 @@ public class PostDetails extends AppCompatActivity {
     EditText title;
     EditText description;
 
-    private static final int CAMERA_REQUEST_CODE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private StorageReference mStorage;
     private ProgressDialog mProgress;
@@ -61,8 +66,35 @@ public class PostDetails extends AppCompatActivity {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(PostDetails.this, android.Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(PostDetails.this,
+                            android.Manifest.permission.CAMERA)) {
+
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                    } else {
+
+                        // No explanation needed, we can request the permission.
+
+                        ActivityCompat.requestPermissions(PostDetails.this,
+                                new String[]{android.Manifest.permission.CAMERA},
+                                101);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+                    }
+                }
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    Log.d("Failure: ","false");
+                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                }
 
             }
         });
