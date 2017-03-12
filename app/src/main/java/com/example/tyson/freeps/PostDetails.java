@@ -62,6 +62,7 @@ public class PostDetails extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void createPost(String Title, String Description) {
@@ -77,7 +78,7 @@ public class PostDetails extends AppCompatActivity {
         Post Post = new Post(Title, Description);
 
         myRef.child(PostID).setValue(Post);
-
+        
         addPostChangeListener();
     }
 
@@ -130,7 +131,16 @@ public class PostDetails extends AppCompatActivity {
             myRef.child(PostID).child("Description").setValue(Description);
     }
 
-    private void readPostKey(){
-        PostKey = myRef.getKey();
+    private void readPost(){
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println(dataSnapshot.getValue());
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e(TAG, "Failed to read post", error.toException());
+            }
+        });
     }
 }
