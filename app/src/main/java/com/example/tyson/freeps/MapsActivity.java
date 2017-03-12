@@ -45,7 +45,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * This shows how to listen to some {@link GoogleMap} events.
  */
 public class MapsActivity extends FragmentActivity
-        implements AdapterView.OnItemSelectedListener, OnMapClickListener, OnMapLongClickListener, OnCameraIdleListener,
+        implements AdapterView.OnItemSelectedListener, OnCameraIdleListener,
         OnMapReadyCallback, OnMarkerClickListener,
         ConnectionCallbacks,
         OnConnectionFailedListener, LocationListener  {
@@ -179,8 +179,6 @@ public class MapsActivity extends FragmentActivity
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder_icon)));
         mBrisbane.setTag(0);
 
-        mMap.setOnMapClickListener(this);
-        mMap.setOnMapLongClickListener(this);
         mMap.setOnCameraIdleListener(this);
 
         //mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -217,26 +215,6 @@ public class MapsActivity extends FragmentActivity
         mGoogleApiClient.connect();
     }
 
-    @Override
-    public void onMapClick(LatLng point) {
-
-        if (marker != null) {
-            marker.remove();
-        }
-        marker = mMap.addMarker(new MarkerOptions().position(point));
-        hostPoint = point;
-    }
-
-    @Override
-    public void onMapLongClick(LatLng point) {
-
-        if (marker != null) {
-            marker.remove();
-        }
-        marker = mMap.addMarker(new MarkerOptions().position(point));
-        hostPoint = point;
-
-    }
 
     /** Called when the user clicks a marker. */
     @Override
