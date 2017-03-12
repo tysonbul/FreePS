@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.tyson.freeps.PostDetails">
 
+    <TextView
+        android:id="@+id/post_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp" />
+
     <EditText
         android:id="@+id/title"
         android:layout_width="wrap_content"
