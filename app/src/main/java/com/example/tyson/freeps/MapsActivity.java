@@ -129,6 +129,10 @@ public class MapsActivity extends FragmentActivity
                     tempLocationLon[i] = Double.parseDouble(locationLon);
                     tempTitle[i] = p.getTitle();
                     tempItemCat[i] = p.getItemCategory();
+                    tempTimeAndDate[i] = p.getTimeAndDate();
+                    tempDescription[i] = p.getDescription();
+                    tempNotThereFlag[i] = p.getNotThereFlag();
+                    tempNot
                     Log.d("title",tempTitle[i]);
                     i++;
 
@@ -138,7 +142,7 @@ public class MapsActivity extends FragmentActivity
                     /////////////////////////////////////////
                     // tempItemCat[i] returns itemCategory //
                     /////////////////////////////////////////
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(tempLocationLat[ii],tempLocationLon[ii])).title(tempTitle[ii]).snippet());
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(tempLocationLat[ii],tempLocationLon[ii])).title(tempTitle[ii]));
                 }
 
             }
