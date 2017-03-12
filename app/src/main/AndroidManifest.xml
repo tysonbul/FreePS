@@ -25,7 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FindOrPostActivity"
+        <activity android:name=".MapsActivity"
             android:icon="@drawable/placeholder_icon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,13 +43,13 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyCq12NsP7u5MMua33Fvs6-CQyhp7OAkRKU" />
 
         <activity
             android:name=".SplashScreen"
             android:label="@string/title_activity_maps" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".MapsActivity"
+        <activity android:name=".FindOrPostActivity"
             android:icon="@drawable/placeholder_icon"/>
     </application>
 
