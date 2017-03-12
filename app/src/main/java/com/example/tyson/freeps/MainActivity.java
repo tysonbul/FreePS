@@ -54,26 +54,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onStart() {
-        super.onStart();
-
-        // Add value event listener to the post
-        // [START post_value_event_listener]
-
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-
-                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-            }
-        };
-        mPostReference.addValueEventListener(postListener);
-    }
+//    public void onStart() {
+//        super.onStart();
+//
+//        // Add value event listener to the post
+//        // [START post_value_event_listener]
+//
+//        ValueEventListener postListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // Get Post object and use the values to update the UI
+//
+//                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Getting Post failed, log a message
+//                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+//            }
+//        };
+//        mPostReference.addValueEventListener(postListener);
+//    }
 }

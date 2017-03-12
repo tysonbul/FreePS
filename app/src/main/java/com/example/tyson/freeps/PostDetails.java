@@ -27,6 +27,7 @@ public class PostDetails extends AppCompatActivity {
     Button cancelButton;
     EditText inputTitle;
     EditText inputDescription;
+    String PostKey;
 
     private TextView PostDetails;
     private String PostID;
@@ -67,8 +68,10 @@ public class PostDetails extends AppCompatActivity {
         // TODO
         // In real apps this PostID should be fetched
         // by implementing firebase auth
+
         if (TextUtils.isEmpty(PostID)) {
             PostID = myRef.push().getKey();
+            Log.d("Key Value", PostID);
         }
 
         Post Post = new Post(Title, Description);
@@ -101,6 +104,7 @@ public class PostDetails extends AppCompatActivity {
                 inputDescription.setText("");
 
                 toggleButton();
+
             }
 
             @Override
@@ -112,18 +116,21 @@ public class PostDetails extends AppCompatActivity {
     }
     private void toggleButton() {
         if (TextUtils.isEmpty(PostID)) {
-            submitButton.setText("Save");
+            submitButton.setText("Post");
         } else {
             submitButton.setText("Update");
         }
+
     }
 
     private void updatePost(String Title, String Description) {
         if (!TextUtils.isEmpty(Title))
             myRef.child(PostID).child("Title").setValue(Title);
         if (!TextUtils.isEmpty(Description))
-            myRef.child(PostID).child("Descriptions").setValue(Description);
+            myRef.child(PostID).child("Description").setValue(Description);
     }
 
-
+    private void readPostKey(){
+        PostKey = myRef.getKey();
+    }
 }
