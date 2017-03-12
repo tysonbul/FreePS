@@ -39,7 +39,8 @@
             android:name=".SplashScreen"
             android:label="@string/title_activity_maps" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".FindOrPostActivity" />
+        <activity android:name=".FindOrPostActivity"
+            android:background="@color/colorPrimaryDark"/>
     </application>
 
 </manifest>

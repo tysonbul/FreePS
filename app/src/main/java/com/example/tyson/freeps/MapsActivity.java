@@ -3,7 +3,6 @@ package com.example.tyson.freeps;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -29,35 +28,45 @@ public class MapsActivity extends FragmentActivity
     Marker marker;
     Button hostButton, home;
     LatLng hostPoint;
+    Button helpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        hostButton = (Button) findViewById(R.id.hostButton);
+        //hostButton = (Button) findViewById(R.id.hostButton);
         home = (Button) findViewById(R.id.home);
+        helpButton = (Button) findViewById(R.id.help_button);
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        hostButton.setOnClickListener(new View.OnClickListener() {
+//        hostButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("hi","button clicked");
+//                //Intent i = new Intent(MapsActivity.this, EventDetails.class);
+//                //i.putExtra("point",hostPoint);
+//                //startActivity(i);
+//            }
+//        });
 
-            @Override
-            public void onClick(View v) {
-                Log.d("hi","button clicked");
-                //Intent i = new Intent(MapsActivity.this, EventDetails.class);
-                //i.putExtra("point",hostPoint);
-                //startActivity(i);
-            }
-        });
+//        home.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //Intent i = new Intent(MapsActivity.this,UserAreaActivity.class);
+//                //startActivity(i);
+//            }
+//        });
 
-        home.setOnClickListener(new View.OnClickListener() {
+        helpButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                //Intent i = new Intent(MapsActivity.this,UserAreaActivity.class);
-                //startActivity(i);
+            public void onClick(View v){
+                DialogFragment newFragment = new HelpDialogFragment();
+                newFragment.show(getFragmentManager(), "helpDialog");
             }
         });
 
