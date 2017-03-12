@@ -26,7 +26,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-maps:10.2.0'
+    compile 'com.google.android.gms:play-services-maps:+'
     compile 'com.android.support:design:25.2.0'
+    compile 'com.google.android.gms:play-services-location:+'
     testCompile 'junit:junit:4.12'
 }
