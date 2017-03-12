@@ -1,10 +1,12 @@
 package com.example.tyson.freeps;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,7 +30,7 @@ public class MapsActivity extends FragmentActivity
     Marker marker;
     Button hostButton, home;
     LatLng hostPoint;
-    Button helpButton;
+    ImageButton helpButton, postButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,8 @@ public class MapsActivity extends FragmentActivity
 
         //hostButton = (Button) findViewById(R.id.hostButton);
         home = (Button) findViewById(R.id.home);
-        helpButton = (Button) findViewById(R.id.help_button);
+        helpButton = (ImageButton) findViewById(R.id.help_button);
+        postButton = (ImageButton) findViewById(R.id.post_or_cancel_button);
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -67,6 +70,14 @@ public class MapsActivity extends FragmentActivity
             public void onClick(View v){
                 DialogFragment newFragment = new HelpDialogFragment();
                 newFragment.show(getFragmentManager(), "helpDialog");
+            }
+        });
+
+        postButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), AddPostActivity.class);
+                startActivity(intent);
             }
         });
 

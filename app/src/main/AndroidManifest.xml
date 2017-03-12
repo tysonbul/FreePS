@@ -38,8 +38,10 @@
         <activity
             android:name=".MapsActivity"/>
         <activity android:name=".MainActivity" />
-        <activity android:name=".FindOrPostActivity"
-            android:background="@color/colorPrimaryDark"/>
+        <activity
+            android:name=".FindOrPostActivity"
+            android:background="@color/colorPrimaryDark" />
+        <activity android:name=".AddPostActivity"></activity>
     </application>
 
 </manifest>
