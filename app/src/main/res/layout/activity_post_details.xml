@@ -65,4 +65,12 @@
         android:layout_marginRight="14dp"
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="101dp" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/submitButton"
+        android:layout_alignRight="@+id/submitButton"
+        android:layout_centerVertical="true" />
 </RelativeLayout>

@@ -1,14 +1,25 @@
 package com.example.tyson.freeps;
 
+import android.*;
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,7 +29,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ValueEventListener;
 
-public class PostDetails extends AppCompatActivity {
+import java.text.DateFormat;
+import java.util.Date;
+
+public class PostDetails extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+
+    GoogleApiClient mGoogleApiClient;
+    Location mLastLocation;
 
     private static final String TAG = PostDetails.class.getSimpleName();
 
@@ -31,6 +48,12 @@ public class PostDetails extends AppCompatActivity {
 
     private TextView PostDetails;
     private String PostID;
+    private String LocationLat;
+    private String LocationLon;
+    private String TimeAndDate;
+    private String ItemCategory;
+    private String ClaimFlag;
+    private String notThereFlag;
     private FirebaseDatabase db;
     private DatabaseReference myRef;
 
@@ -38,6 +61,21 @@ public class PostDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
+
+        buildGoogleApiClient();
+
+        if(mGoogleApiClient!= null){
+            mGoogleApiClient.connect();
+        }
+        else
+            Toast.makeText(this, "Not connected...", Toast.LENGTH_SHORT).show();
+
+
+        String itemCat[] = {"Furniture","Electronics","Books","Textbooks","Sports Gear","Clothing","Accessories","Other"};
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemCat);
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(spinnerArrayAdapter);
+
 
         // get view fields
         PostDetails = (TextView) findViewById(R.id.post_details);
@@ -53,19 +91,24 @@ public class PostDetails extends AppCompatActivity {
             public void onClick(View view) {
                 String Title = inputTitle.getText().toString();
                 String Description = inputDescription.getText().toString();
+                TimeAndDate = DateFormat.getDateTimeInstance().format(new Date());
+                ItemCategory =  spinner.getSelectedItem().toString();
+                ClaimFlag = "f";
+                notThereFlag = "f";
+
 
                 // Check for already existed PostID
                 if (TextUtils.isEmpty(PostID)) {
-                    createPost(Title, Description);
+                    createPost(Title, Description, LocationLat, LocationLon, TimeAndDate, ItemCategory, ClaimFlag, notThereFlag);
                 } else {
-                    updatePost(Title, Description);
+                    updatePost(Title, Description, LocationLat, LocationLon, TimeAndDate, ItemCategory, ClaimFlag, notThereFlag);
                 }
             }
         });
 
     }
 
-    private void createPost(String Title, String Description) {
+    private void createPost(String Title, String Description, String LocationLat, String LocationLon, String TimeAndDate, String ItemCategory, String ClaimFlag, String notThereFlag) {
         // TODO
         // In real apps this PostID should be fetched
         // by implementing firebase auth
@@ -75,7 +118,7 @@ public class PostDetails extends AppCompatActivity {
             Log.d("Key Value", PostID);
         }
 
-        Post Post = new Post(Title, Description);
+        Post Post = new Post(Title, Description, LocationLat, LocationLon, TimeAndDate, ItemCategory, ClaimFlag, notThereFlag);
 
         myRef.child(PostID).setValue(Post);
 
@@ -124,7 +167,7 @@ public class PostDetails extends AppCompatActivity {
 
     }
 
-    private void updatePost(String Title, String Description) {
+    private void updatePost(String Title, String Description, String LocationLat, String LocationLon, String TimeAndDate, String ItemCategory, String ClaimFlag, String notThereFlag) {
         if (!TextUtils.isEmpty(Title))
             myRef.child(PostID).child("Title").setValue(Title);
         if (!TextUtils.isEmpty(Description))
@@ -142,5 +185,44 @@ public class PostDetails extends AppCompatActivity {
                 Log.e(TAG, "Failed to read post", error.toException());
             }
         });
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult arg0) {
+        Toast.makeText(this, "Failed to connect...", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    @TargetApi(Build.VERSION_CODES.M)
+    public void onConnected(Bundle arg0) {
+
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+
+        if (mLastLocation != null) {
+            LocationLat = String.valueOf(mLastLocation.getLatitude());
+            LocationLon = String.valueOf(mLastLocation.getLongitude());
+        }
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int arg0) {
+        Toast.makeText(this, "Connection suspended...", Toast.LENGTH_SHORT).show();
+
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 }

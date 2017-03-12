@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
             progress.setMessage("Uploading...");
             progress.show();
-            
+
             StorageReference filepath = storage.child("Photos").child(photoURI.getLastPathSegment());
             filepath.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
