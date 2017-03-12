@@ -1,27 +1,46 @@
 package com.example.tyson.freeps;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DataSnapshot;
+
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class PostDetails extends AppCompatActivity {
     Long PostCounter = 0L;
     Button submitButton;
     Button cancelButton;
+    Button uploadButton;
+    ImageView imageView;
     EditText title;
     EditText description;
+
+    private static final int CAMERA_REQUEST_CODE = 1;
+
+    private StorageReference mStorage;
+    private ProgressDialog mProgress;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +51,21 @@ public class PostDetails extends AppCompatActivity {
         submitButton = (Button) findViewById(R.id.submitButton);
         title = (EditText) findViewById(R.id.title);
         description = (EditText) findViewById(R.id.description);
+        uploadButton = (Button) findViewById(R.id.uploadButton);
+        imageView = (ImageView) findViewById(R.id.imageView);
+
+        mStorage = FirebaseStorage.getInstance().getReference("Posts");
+        mProgress = new ProgressDialog(this);
+
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+
+            }
+        });
 
 
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -68,18 +102,31 @@ public class PostDetails extends AppCompatActivity {
                 myRef.child(String.valueOf(PostCounter)).child("ClaimFlag").setValue("false");
                 myRef.child(String.valueOf(PostCounter)).child("notThereFlag").setValue("false");
 
-
-
-
-
-
-
-
-
             }
         });
 
+
+
     }
 
-
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
+//            mProgress.setMessage("Uploading image...");
+//            mProgress.show();
+//            Uri uri = data.getData();
+//
+//            StorageReference filepath = mStorage.child(String.valueOf(PostCounter)).child("Photo").child(uri.getLastPathSegment());
+//            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    mProgress.dismiss();
+//                    Toast.makeText(PostDetails.this,"Upload finish",Toast.LENGTH_LONG).show();
+//                }
+//            });
+//
+//        }
+//    }
 }
