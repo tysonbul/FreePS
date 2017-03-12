@@ -23,8 +23,6 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.location.LocationListener;
@@ -35,13 +33,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 /**
  * This shows how to listen to some {@link GoogleMap} events.
  */
 public class MapsActivity extends FragmentActivity
-        implements OnMapClickListener, OnMapLongClickListener, OnCameraIdleListener,
+        implements OnCameraIdleListener,
         OnMapReadyCallback, OnMarkerClickListener,
         ConnectionCallbacks,
         OnConnectionFailedListener, LocationListener {
@@ -56,13 +59,15 @@ public class MapsActivity extends FragmentActivity
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
 
-    private static final LatLng PERTH = new LatLng(-31.952854, 115.857342);
-    private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
-    private static final LatLng BRISBANE = new LatLng(-27.47093, 153.0235);
+    Long PostCounter;
+    Double[] tempLocationLat;
+    Double[] tempLocationLon;
+    String[] tempInfo;
+    Post p;
+    String locationLat;
+    String locationLon;
+    LatLng tempLocation;
 
-    private Marker mPerth;
-    private Marker mSydney;
-    private Marker mBrisbane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,44 @@ public class MapsActivity extends FragmentActivity
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        FirebaseDatabase myRef = FirebaseDatabase.getInstance();
+        Query q = myRef.getReference();
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                PostCounter = dataSnapshot.child("Posts").getChildrenCount();
+
+                tempLocationLat = new Double[PostCounter.intValue()];
+                tempLocationLon = new Double[PostCounter.intValue()];
+                Log.d("location",String.valueOf(tempLocationLat.length));
+                Integer i=0;
+
+                for(DataSnapshot post : dataSnapshot.child("Posts").getChildren()){
+                    p = post.getValue(Post.class);
+                    locationLat = p.getLocationLat();
+                    locationLon = p.getLocationLon();
+                    //Log.d("locationLat",locationLat);
+                    //Log.d("locationLon",locationLon);
+
+
+                    tempLocationLat[i] = Double.parseDouble(locationLat);
+                    tempLocationLon[i] = Double.parseDouble(locationLon);
+                    i++;
+
+                }
+
+                for (Integer ii=0; ii < i; ii++){
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(tempLocationLat[ii],tempLocationLon[ii])));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         hostButton.setOnClickListener(new View.OnClickListener() {
 
@@ -107,25 +150,25 @@ public class MapsActivity extends FragmentActivity
         mMap = map;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(49.234221, -122.8145), 9));
 
-        // Add some markers to the map, and add a data object to each marker.
-        mPerth = mMap.addMarker(new MarkerOptions()
-                .position(PERTH)
-                .title("Perth"));
-        mPerth.setTag(0);
+//        // Add some markers to the map, and add a data object to each marker.
+//        mPerth = mMap.addMarker(new MarkerOptions()
+//                .position(PERTH)
+//                .title("Perth"));
+//        mPerth.setTag(0);
+//
+//        mSydney = mMap.addMarker(new MarkerOptions()
+//                .position(SYDNEY)
+//                .title("Sydney"));
+//        mSydney.setTag(0);
+//
+//        mBrisbane = mMap.addMarker(new MarkerOptions()
+//                .position(BRISBANE)
+//                .title("Brisbane")
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder_icon)));
+//        mBrisbane.setTag(0);
 
-        mSydney = mMap.addMarker(new MarkerOptions()
-                .position(SYDNEY)
-                .title("Sydney"));
-        mSydney.setTag(0);
 
-        mBrisbane = mMap.addMarker(new MarkerOptions()
-                .position(BRISBANE)
-                .title("Brisbane")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder_icon)));
-        mBrisbane.setTag(0);
 
-        mMap.setOnMapClickListener(this);
-        mMap.setOnMapLongClickListener(this);
         mMap.setOnCameraIdleListener(this);
 
         //mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -162,26 +205,6 @@ public class MapsActivity extends FragmentActivity
         mGoogleApiClient.connect();
     }
 
-    @Override
-    public void onMapClick(LatLng point) {
-
-        if (marker != null) {
-            marker.remove();
-        }
-        marker = mMap.addMarker(new MarkerOptions().position(point));
-        hostPoint = point;
-    }
-
-    @Override
-    public void onMapLongClick(LatLng point) {
-
-        if (marker != null) {
-            marker.remove();
-        }
-        marker = mMap.addMarker(new MarkerOptions().position(point));
-        hostPoint = point;
-
-    }
 
     /** Called when the user clicks a marker. */
     @Override

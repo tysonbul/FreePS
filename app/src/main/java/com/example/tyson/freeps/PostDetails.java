@@ -121,7 +121,7 @@ public class PostDetails extends AppCompatActivity implements GoogleApiClient.Co
         Post Post = new Post(Title, Description, LocationLat, LocationLon, TimeAndDate, ItemCategory, ClaimFlag, notThereFlag);
 
         myRef.child(PostID).setValue(Post);
-        
+
         addPostChangeListener();
     }
 
@@ -206,7 +206,6 @@ public class PostDetails extends AppCompatActivity implements GoogleApiClient.Co
                 mGoogleApiClient);
 
         if (mLastLocation != null) {
-            Toast.makeText(this,String.valueOf(mLastLocation.getLatitude()),Toast.LENGTH_LONG).show();
             LocationLat = String.valueOf(mLastLocation.getLatitude());
             LocationLon = String.valueOf(mLastLocation.getLongitude());
         }

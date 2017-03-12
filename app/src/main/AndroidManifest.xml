@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PostDetails"
+            android:name=".MapsActivity"
             android:icon="@drawable/placeholder_icon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +48,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".LocationTest" />
         <activity
-            android:name=".MapsActivity"
+            android:name=".PostDetails"
             android:icon="@drawable/placeholder_icon" />
         <activity android:name=".FindOrPostActivity"
             android:icon="@drawable/placeholder_icon"/>

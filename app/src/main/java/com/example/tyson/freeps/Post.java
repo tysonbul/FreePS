@@ -7,16 +7,16 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 public class Post {
 
-    public String ClaimFlag;
-    public String Description;
-    public String ItemCategory;
-    public String LocationLon;
-    public String LocationLat;
+    String ClaimFlag;
+    String Description;
+    String ItemCategory;
+    String LocationLon;
+    String LocationLat;
 //    public String Photo;
 //    public String PostID;
-    public String TimeAndDate;
-    public String Title;
-    public String notThereFlag;
+    String TimeAndDate;
+    String Title;
+    String notThereFlag;
 
     public Post() {
 
@@ -34,4 +34,17 @@ public class Post {
         this.ClaimFlag = ClaimFlag;
         this.notThereFlag = notThereFlag;
     }
+
+    public String getLocationLat(){
+        return LocationLat;
+    }
+
+    public String getLocationLon(){
+        return LocationLon;
+    }
+
+    public String getItemCategory(){
+        return ItemCategory;
+    }
+
 }
