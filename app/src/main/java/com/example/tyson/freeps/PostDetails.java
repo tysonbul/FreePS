@@ -1,9 +1,13 @@
 package com.example.tyson.freeps;
 
+import android.*;
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -29,6 +33,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.net.URI;
 import java.security.Permission;
 
 public class PostDetails extends AppCompatActivity {
@@ -44,6 +50,7 @@ public class PostDetails extends AppCompatActivity {
 
     private StorageReference mStorage;
     private ProgressDialog mProgress;
+    private Uri imageUri;
 
 
 
@@ -90,7 +97,59 @@ public class PostDetails extends AppCompatActivity {
                         // result of the request.
                     }
                 }
+
+                if (ContextCompat.checkSelfPermission(PostDetails.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(PostDetails.this,
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                    } else {
+
+                        // No explanation needed, we can request the permission.
+
+                        ActivityCompat.requestPermissions(PostDetails.this,
+                                new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                                101);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+                    }
+                }
+
+                if (ContextCompat.checkSelfPermission(PostDetails.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(PostDetails.this,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                    } else {
+
+                        // No explanation needed, we can request the permission.
+
+                        ActivityCompat.requestPermissions(PostDetails.this,
+                                new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                101);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+                    }
+                }
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     Log.d("Failure: ","false");
                     startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
@@ -141,15 +200,20 @@ public class PostDetails extends AppCompatActivity {
 
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
-//            mProgress.setMessage("Uploading image...");
-//            mProgress.show();
-//            Uri uri = data.getData();
-//
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            mProgress.setMessage("Uploading image...");
+            mProgress.show();
+
+            Bundle extras = data.getExtras();
+//            Log.e("URI",imageUri.toString());
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            imageView.setImageBitmap(imageBitmap);
+
+
 //            StorageReference filepath = mStorage.child(String.valueOf(PostCounter)).child("Photo").child(uri.getLastPathSegment());
 //            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 //                @Override
@@ -158,7 +222,7 @@ public class PostDetails extends AppCompatActivity {
 //                    Toast.makeText(PostDetails.this,"Upload finish",Toast.LENGTH_LONG).show();
 //                }
 //            });
-//
-//        }
-//    }
+
+        }
+    }
 }
