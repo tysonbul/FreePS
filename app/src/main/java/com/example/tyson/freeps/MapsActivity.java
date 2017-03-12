@@ -64,13 +64,21 @@ public class MapsActivity extends FragmentActivity
     Double[] tempLocationLon;
     String[] tempTitle;
     String[] tempInfo;
+    String[] tempTimeAndDate;
+    String[] tempDescription;
+    String[] tempClaimFlag;
+    String[] tempNotThereFlag;
     String[] tempItemCat;
+
     Post p;
     String locationLat;
     String locationLon;
     String title;
     String itemCat;
-    LatLng tempLocation;
+    String TimeAndDate;
+    String Description;
+    String ClaimFlag;
+    String NotThereFlag;
 
 
     @Override
@@ -100,6 +108,10 @@ public class MapsActivity extends FragmentActivity
                 tempLocationLon = new Double[PostCounter.intValue()];
                 tempTitle = new String[PostCounter.intValue()];
                 tempItemCat = new String[PostCounter.intValue()];
+                tempTimeAndDate = new String[PostCounter.intValue()];
+                tempDescription = new String[PostCounter.intValue()];
+                tempClaimFlag = new String[PostCounter.intValue()];
+                tempNotThereFlag = new String[PostCounter.intValue()];
 
                 Log.d("location",String.valueOf(tempLocationLat.length));
                 Integer i=0;
@@ -108,8 +120,6 @@ public class MapsActivity extends FragmentActivity
                     p = post.getValue(Post.class);
                     locationLat = p.getLocationLat();
                     locationLon = p.getLocationLon();
-                    title = p.getTitle();
-                    itemCat = p.getItemCategory();
 
                     //Log.d("locationLat",locationLat);
                     //Log.d("locationLon",locationLon);
@@ -128,7 +138,7 @@ public class MapsActivity extends FragmentActivity
                     /////////////////////////////////////////
                     // tempItemCat[i] returns itemCategory //
                     /////////////////////////////////////////
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(tempLocationLat[ii],tempLocationLon[ii])).title(tempTitle[ii]));
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(tempLocationLat[ii],tempLocationLon[ii])).title(tempTitle[ii]).snippet());
                 }
 
             }

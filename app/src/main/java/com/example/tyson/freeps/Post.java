@@ -5,6 +5,8 @@ package com.example.tyson.freeps;
  */
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.sql.Time;
+
 public class Post {
 
     String ClaimFlag;
@@ -49,6 +51,22 @@ public class Post {
 
     public String getTitle(){
         return Title;
+    }
+
+    public String getTimeAndDate(){
+        return TimeAndDate;
+    }
+
+    public String getDescription(){
+        return Description;
+    }
+
+    public String getClaimFlag(){
+        return ClaimFlag;
+    }
+
+    public String getNotThereFlag(){
+        return notThereFlag;
     }
 
 }
