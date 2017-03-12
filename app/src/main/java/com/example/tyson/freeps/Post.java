@@ -19,12 +19,13 @@ public class Post {
     String TimeAndDate;
     String Title;
     String notThereFlag;
+    String Image;
 
     public Post() {
 
     }
 //public Post(String ClaimFlag, String TimeAndDate, String Description, String ItemCategory, String LocationLon, String LocationLat, String Photo, String PostID, String Title, String notThereFlag)
-    public Post(String Title, String Description, String LocationLat, String LocationLon, String TimeAndDate, String ItemCategory, String ClaimFlag, String notThereFlag) {
+    public Post(String Image, String Title, String Description, String LocationLat, String LocationLon, String TimeAndDate, String ItemCategory, String ClaimFlag, String notThereFlag) {
 //        this.PostID = PostID;
         this.TimeAndDate = TimeAndDate;
         this.Description = Description;
@@ -35,6 +36,7 @@ public class Post {
         this.Title = Title;
         this.ClaimFlag = ClaimFlag;
         this.notThereFlag = notThereFlag;
+        this.Image = Image;
     }
 
     public String geLocationLat(){
@@ -67,6 +69,10 @@ public class Post {
 
     public String geNotThereFlag(){
         return notThereFlag;
+    }
+
+    public String geImage(){
+        return Image;
     }
 
 }

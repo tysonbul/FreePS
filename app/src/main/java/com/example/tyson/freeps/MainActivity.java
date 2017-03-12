@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 1;
 
     String mCurrentPhotoPath;
+    String pathToPic;
     Boolean camPermission;
 
     private File createImageFile() throws IOException {
@@ -170,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
             progress.show();
 
             StorageReference filepath = storage.child("Photos").child(photoURI.getLastPathSegment());
+            Log.d("File Path", filepath.toString());
+            pathToPic = filepath.toString();
             filepath.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -183,6 +188,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void downloadImage() {
+//        StorageReference picRef = storage.child("Photos/JPEG_20170312_044159_666091275.jpg");
+//        StorageReference picRef = storage.getReferenceFromUrl(pathToPic);
+        String[] parts = pathToPic.split(".com/");
+        String part2 = parts[1];
+        Log.d("Image name", part2);
+
+        StorageReference picRef = storage.child(part2);
+        // ImageView in your Activity
+
+
+        // Load the image using Glide
+        Glide.with(this /* context */)
+                .using(new FirebaseImageLoader())
+                .load(picRef)
+                .into(imageView);
     }
 
     protected void onSaveInstanceState(Bundle outState)
