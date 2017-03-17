@@ -27,10 +27,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PostDetails"/>
+
 
         <activity
-            android:name=".PostDetails"
+            android:name=".SplashScreen"
             android:icon="@drawable/placeholder_icon">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,16 +60,13 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".SplashScreen"
-            android:label="@string/title_activity_maps" />
-
-
-
+            android:name=".MapsActivity"/>
+        <activity android:name=".MainActivity" />
         <activity
-            android:name=".MainActivity"
-            android:icon="@drawable/placeholder_icon" />
-        <activity android:name=".FindOrPostActivity"
-            android:icon="@drawable/placeholder_icon"/>
+            android:name=".FindOrPostActivity"
+            android:background="@color/colorPrimaryDark" />
+        <activity android:name=".AddPostActivity"/>
+        <activity android:name=".LocationTest" />
 
     </application>
 

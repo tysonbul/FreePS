@@ -2,4 +2,15 @@
     <string name="app_name">FreePS</string>
     <string name="title_activity_maps">Map</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="category_array">
+        <item>Furniture</item>
+        <item>Electronics</item>
+        <item>Books</item>
+        <item>France</item>
+        <item>Sports Gear</item>
+        <item>Clothing</item>
+        <item>Accessories</item>
+        <item>Other</item>
+    </string-array>
 </resources>
