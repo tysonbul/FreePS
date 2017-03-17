@@ -1,0 +1,94 @@
+{
+  "project_info": {
+    "project_number": "494330823077",
+    "firebase_url": "https://my-project-1483693737987.firebaseio.com",
+    "project_id": "my-project-1483693737987",
+    "storage_bucket": "my-project-1483693737987.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494330823077:android:be7e6bbae65e684c",
+        "android_client_info": {
+          "package_name": "meetupvancouver.com.meetupvancouver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494330823077-1rd49195t7vji8e6shc06jrnp8vgig8u.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "494330823077-phth7rv268hqrp105sqq4hvflhrmsbjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB1nAld9VV-XExo_mTQAJT6SA2l9RXZlc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494330823077:android:a65a6d3ac05037f8",
+        "android_client_info": {
+          "package_name": "com.example.tyson.freeps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494330823077-shbvkibra74l5lu5vbnts3sm5b2me73a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tyson.freeps",
+            "certificate_hash": "cb74ce60fa0108deaa264d26d06410014b61ea31"
+          }
+        },
+        {
+          "client_id": "494330823077-1rd49195t7vji8e6shc06jrnp8vgig8u.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "494330823077-phth7rv268hqrp105sqq4hvflhrmsbjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB1nAld9VV-XExo_mTQAJT6SA2l9RXZlc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "494330823077-1rd49195t7vji8e6shc06jrnp8vgig8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
